@@ -131,7 +131,7 @@ class FeatureEstimator:
 			print('Orientation must be Complexity or Simplicity')
 		else:
 			if model not in self.resources:
-				m = gensim.models.KeyedVectors.load_word2vec_format(model, binary=True)
+				m = gensim.models.KeyedVectors.load_word2vec_format(model, binary=False)
 				self.resources[model] = m
 			self.features.append((self.wordVectorSimilarityFeature, [model]))
 			self.identifiers.append(('Word Vector Similarity (Model: '+model+')', orientation))
@@ -163,7 +163,7 @@ class FeatureEstimator:
 			print('Orientation must be Complexity or Simplicity')
 		else:
 			if model not in self.resources:
-				m = gensim.models.KeyedVectors.load_word2vec_format(model, binary=True)
+				m = gensim.models.KeyedVectors.load_word2vec_format(model, binary=False)
 				self.resources[model] = m
 			self.features.append((self.wordVectorContextSimilarityFeature, [model]))
 			self.identifiers.append(('Word Vector Context Similarity (Model: '+model+')', orientation))
@@ -204,7 +204,7 @@ class EmbeddingsGenerator:
 
 	def __init__(self, w2vmodel):
 		self.stemmer = nltk.stem.RSLPStemmer()
-		self.model = gensim.models.KeyedVectors.load_word2vec_format(w2vmodel, unicode_errors='ignore', binary=True)
+		self.model = gensim.models.KeyedVectors.load_word2vec_format(w2vmodel, unicode_errors='ignore', binary=False)
 
 	def getSubstitutions(self, victor_corpus, amount):
 		substitutions = self.getInitialSet(victor_corpus, amount)
@@ -368,7 +368,7 @@ class GeneratorEvaluator:
 		precisiont = 0
 		recallt = 0
 		
-		f = open(victor_corpus)
+		f = open(victor_corpus, encoding="utf-8")
 		for line in f:
 			data = line.strip().split('\t')
 			target = data[1].strip()
